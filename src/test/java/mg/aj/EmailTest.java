@@ -21,4 +21,15 @@ public class EmailTest {
 		throw new NotificationException();
 	}
 	
+	@Test(timeout = 15000)
+	public void testSendingAnEmailUsingGMailSTMP() throws CouldNotSendEmailException {
+		String subject = "JavaZone - Morten - Juan";
+		String recipient = "morten.granlund@gmail.com";
+		String body = "This is a test e-mail sent from a framework I'm going to present\n" +
+				"at the JavaZone conference in Oslo, Norway in September 2011!";
+		Email email = new Email(subject, recipient, null, body);
+		
+		email.sendMailUsingGMailAndSSL();
+	}
+	
 }
