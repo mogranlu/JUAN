@@ -11,4 +11,6 @@ public @interface EmailNotification {
 	String recipient();
 	String cc() default "";
 	String subject();
+	String body() default "";
+	String notifier() default "";
 }

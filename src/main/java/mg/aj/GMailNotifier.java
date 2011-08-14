@@ -1,6 +1,5 @@
 package mg.aj;
 
-import java.io.IOException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -12,26 +11,33 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class GMailNotifier implements Notifier{
+public class GMailNotifier implements Notifier {
 	private String subject;
-	private String recipients;
+	private String recipient;
 	private String cc;
 	private String body;
 	private static final String NEWLINE = System.getProperty("line.separator");
 
-	public GMailNotifier(String subject, String recipients, String cc,
+	/**
+	 * 
+	 * @param subject
+	 * @param recipient the email address(es) of the recipients. If there is more than one, use to 
+	 * @param cc
+	 * @param body
+	 */
+	public GMailNotifier(String subject, String recipient, String cc,
 			String body) {
-		this.subject = subject;
-		this.recipients = recipients;
-		this.cc = cc;
-		this.body = body;
+		this.setSubject(subject);
+		this.setRecipient(recipient);
+		this.setCc(cc);
+		this.setBody(body);
 	}
-
+	
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("SENDING MAIL TO:");
 		str.append(NEWLINE);
-		String[] recipientArray = recipients.split("[,;]");
+		String[] recipientArray = getRecipient().split("[,;]");
 		for (String nextRecipient : recipientArray) {
 			str.append("\t" + nextRecipient);
 			str.append(NEWLINE);
@@ -39,30 +45,20 @@ public class GMailNotifier implements Notifier{
 		str.append("CC TO:");
 		str.append(NEWLINE);
 
-		String[] nextCcList = cc.split("[,;]");
+		String[] nextCcList = getCc().split("[,;]");
 		for (String nextCC : nextCcList) {
 			str.append("\t" + nextCC);
 			str.append(NEWLINE);
 		}
-		str.append("...WITH SUBJECT = \"" + subject + "\"");
+		str.append("...WITH SUBJECT = \"" + getSubject() + "\"");
 		str.append("...AND BODY :");
-		str.append(body);
+		str.append(getBody());
 
 		return str.toString();
 	}
 
-	public void sendEmail() throws CouldNotSendEmailException {
-		// throw new IOException("Could not contact e-mail smart host!");
-		System.out.println("SENDING Email...");
-		System.out.println(this);
-
-	}
-
-	/**
-	 * @throws CouldNotSendEmailException
-	 */
-	public void sendMailUsingGMailAndSSL() throws CouldNotSendEmailException {
-		ResourceBundle emailConfig = ResourceBundle.getBundle("email");
+	public void sendEmail()  throws CouldNotSendEmailException {
+		ResourceBundle emailConfig = ResourceBundle.getBundle("gmail");
 
 		Properties sendMailProps = new Properties();
 
@@ -91,10 +87,9 @@ public class GMailNotifier implements Notifier{
 			String from = emailConfig.getString("mail.smtp.sender");
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(this.recipients));
-			message.setSubject(this.subject);
-			message.setText(this.body);
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(this.getRecipient()));
+			message.setSubject(this.getSubject());
+			message.setText(this.getBody());
 
 			Transport.send(message);
 
@@ -105,5 +100,61 @@ public class GMailNotifier implements Notifier{
 					"Could not send Notification Email due to the following exception: "
 							+ e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * @return the subject
+	 */
+	public String getSubject() {
+		return subject;
+	}
+
+	/**
+	 * @param subject the subject to set
+	 */
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	/**
+	 * @return the recipient
+	 */
+	public String getRecipient() {
+		return recipient;
+	}
+
+	/**
+	 * @param recipient the recipient to set
+	 */
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
+
+	/**
+	 * @return the cc
+	 */
+	public String getCc() {
+		return cc;
+	}
+
+	/**
+	 * @param cc the cc to set
+	 */
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+
+	/**
+	 * @return the body
+	 */
+	public String getBody() {
+		return body;
+	}
+
+	/**
+	 * @param body the body to set
+	 */
+	public void setBody(String body) {
+		this.body = body;
 	}
 }
