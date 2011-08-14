@@ -2,6 +2,7 @@ package mg.aj;
 
 import mg.aj.annotations.EmailNotification;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class EmailTest {
@@ -22,6 +23,7 @@ public class EmailTest {
 	}
 	
 	@Test(timeout = 15000)
+	@Ignore
 	public void testSendingAnEmailUsingGMailSTMP() throws CouldNotSendEmailException {
 		String subject = "JavaZone - Morten - Juan";
 		String recipient = "morten.granlund@gmail.com";
