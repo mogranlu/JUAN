@@ -14,12 +14,12 @@ public class EmailTest {
 	@EmailNotification(recipient = "jay.yoo.nit@snailmail.com;e.meihl@foo.com,steve.unemployed@pear.com", subject = "Someone is reusing your framework database!")
 	public void testThatTheNotificationExceptionIsCaughtAndHandledByTheAspect() {
 		// Test that the notification exception is caught and handled by the 
-		throw new NotificationException();
+		throw new NotificationError();
 	}
 	
-	@Test(expected = NotificationException.class)
+	@Test(expected = NotificationError.class)
 	public void testThatNotificationExceptionIsNotWrappedAndHandledByAspectWhenNotAnnotated() {
-		throw new NotificationException();
+		throw new NotificationError();
 	}
 	
 	@Test(timeout = 15000)
@@ -29,9 +29,10 @@ public class EmailTest {
 		String recipient = "morten.granlund@gmail.com";
 		String body = "This is a test e-mail sent from a framework I'm going to present\n" +
 				"at the JavaZone conference in Oslo, Norway in September 2011!";
-		Email email = new Email(subject, recipient, null, body);
+		Notifier email = new GMailNotifier(subject, recipient, null, body);
 		
-		email.sendMailUsingGMailAndSSL();
+		email.sendEmail();
+
 	}
 	
 }

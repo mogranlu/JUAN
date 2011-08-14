@@ -4,8 +4,10 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import mg.aj.Email;
-import mg.aj.NotificationException;
+import mg.aj.CouldNotSendEmailException;
+import mg.aj.GMailNotifier;
+import mg.aj.Notifier;
+import mg.aj.NotificationError;
 import mg.aj.annotations.EmailNotification;
 
 public aspect EmailNotificationAspect {
@@ -16,12 +18,12 @@ public aspect EmailNotificationAspect {
 		Object result = null;
 		try {
 			result = proceed(notif);
-		} catch (NotificationException ex) {
+		} catch (NotificationError ex) {
 			
-			Email mail = new Email(notif.subject(), notif.recipient(), notif.cc(), "");
+			Notifier mail = new GMailNotifier(notif.subject(), notif.recipient(), notif.cc(), "");
 			try {
 				mail.sendEmail();
-			} catch (IOException e) {
+			} catch (CouldNotSendEmailException e) {
 				e.printStackTrace();
 				fail("Something went wrong while attempting to send e-mail notification: " + e.getMessage());
 			}
