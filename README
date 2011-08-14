@@ -1,5 +1,26 @@
 JUAN README
 -----------
- 
-v0.1 : Testing Git setup on Github
 
++-------------+
+| About JUAN: |
++-------------+
+JUAN (JUnit Add-on for Notifications), is a small add-on to JUnit, offering an automated mechanism to alert, or notify, 
+team members about events, without breaking the build. This means that the developers can still work as normal, as opposed 
+to the traditional JUnit failures, which means that the entire production line does not have to halt. 
+
+Examples on events that do not have to break the build:
+ - There is a mismatch between two different localized text resources files (some new properties have not yet been translated).
+ - Someone has edited a particularly critical part of the application, and an e-mail is sent to someone who knows this part of the code well that an extra code review is recommended.
+
++---------------------------+
+| Technology / Dependencies |
++---------------------------+
+Java 6 or higher
+JUnit 4.8.2
+Java Mail 1.4.1
+AspectJ 1.6.7
+Eclipse version Indigo w/ the AspectJ plugin explicitly installed
+
+The project is built using Apache Maven v3.
+mvn clean install
+mvn eclipse:eclipse
