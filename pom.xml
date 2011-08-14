@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Juan</name>
 
-	<description>Extension framework to JUnit which allows sending of noticiation without the build breaking.</description>
+	<description>Extension framework to JUnit which allows sending of noticiations without breaking the build. See the README file for more information.</description>
 
 	<properties>
 		<aspectj.version>1.6.7</aspectj.version>
@@ -77,4 +77,5 @@
 		</plugins>
 	</build>
 
+	<url>github.com/mogranlu/JUAN</url>
 </project>
