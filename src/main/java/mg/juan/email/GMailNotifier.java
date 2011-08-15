@@ -13,6 +13,13 @@ import javax.mail.internet.MimeMessage;
 
 import mg.juan.Notifier;
 
+/**
+ * The default implementation of the Notifier interface, sending notifying e-mails through Google's GMail service.
+ * In this implementation, the SMTP protocol is used, making this as simple an implementation as possible.
+ *  
+ * @author Morten Granlund
+ * @since 1.0
+ */
 public class GMailNotifier implements Notifier {
 	private String subject;
 	private String recipient;
@@ -90,12 +97,15 @@ public class GMailNotifier implements Notifier {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(this.getRecipient()));
+			message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(this.getCc()));
 			message.setSubject(this.getSubject());
 			message.setText(this.getBody());
 
+			System.out.println(" >>> The e-mail (\"" + message.getSubject() +"\") is armed and ready to be sent...");
+			
 			Transport.send(message);
 
-			System.out.println("Done");
+			System.out.println(" >>> The e-mail (\"" + message.getSubject() + "\") has been sent!");
 
 		} catch (MessagingException e) {
 			throw new CouldNotSendEmailException(

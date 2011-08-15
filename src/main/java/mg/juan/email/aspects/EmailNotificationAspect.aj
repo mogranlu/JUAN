@@ -1,12 +1,20 @@
 package mg.juan.email.aspects;
 
-import static org.junit.Assert.fail;
 import mg.juan.NotificationError;
 import mg.juan.Notifier;
+import mg.juan.Notify;
 import mg.juan.email.CouldNotSendEmailException;
 import mg.juan.email.GMailNotifier;
 import mg.juan.email.annotations.EmailNotification;
 
+/**
+ * This aspect will guide all methods annotated with {@link EmailNotification}
+ * so that failing tests using the {@link Notify} methods/tests will cause a
+ * Notification to be sent.
+ * 
+ * @author Morten Granlund
+ * @since 1.0
+ */
 public aspect EmailNotificationAspect {
 	pointcut sendEmailWhenNotificationErrorIsThrown(EmailNotification notif) :
 		  execution(* *(..)) && @annotation(notif);
@@ -19,7 +27,7 @@ public aspect EmailNotificationAspect {
 			String subject = notif.subject();
 			String recipient = notif.recipient();
 			String cc = notif.cc();
-			
+
 			String body = ex.getNotification().toString();
 
 			// Default Notifier is GMailNotifier!
@@ -28,9 +36,12 @@ public aspect EmailNotificationAspect {
 			// Check if another notifier is explicitly set in the notification
 			// annotation:
 			String notifierImplementationClass = notif.notifier();
-			if (notifierImplementationClass != null && notifierImplementationClass.trim().length() > 0) {
-				// Don't create the default one with reflection since it has already been implemented!
-				if (!GMailNotifier.class.getName().trim().contains(notifierImplementationClass.trim())) {
+			if (notifierImplementationClass != null
+					&& notifierImplementationClass.trim().length() > 0) {
+				// Don't create the default one with reflection since it has
+				// already been implemented!
+				if (!GMailNotifier.class.getName().trim()
+						.contains(notifierImplementationClass.trim())) {
 					try {
 						Class<?> c = Class.forName(notifierImplementationClass);
 						Object o = c.newInstance(); // InstantiationException
@@ -52,8 +63,9 @@ public aspect EmailNotificationAspect {
 				notifier.sendEmail();
 			} catch (CouldNotSendEmailException e) {
 				e.printStackTrace();
-				fail("Something went wrong while attempting to send e-mail notification: "
-						+ e.getMessage());
+				throw new Error(
+						"Something went wrong while attempting to send e-mail notification: "
+								+ e.getMessage(), e);
 			}
 		}
 		return result;
@@ -61,7 +73,8 @@ public aspect EmailNotificationAspect {
 	}
 
 	private void logWarningOnNotifierFailover(Throwable rootCause) {
-		System.out.println("Switching to default notifier. Could not instantiate explicit notifier due the following :");
+		System.out
+				.println("Switching to default notifier. Could not instantiate explicit notifier due the following :");
 		rootCause.printStackTrace();
 	}
 

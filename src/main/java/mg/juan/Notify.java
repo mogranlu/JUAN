@@ -1,5 +1,10 @@
 package mg.juan;
 
+/**
+ * 
+ * @author Morten
+ * @since 1.0
+ */
 public class Notify {
 	
 	public static void notifyIf(String message, boolean condition) throws NotificationError {
