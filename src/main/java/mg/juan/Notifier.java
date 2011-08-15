@@ -1,4 +1,6 @@
-package mg.aj;
+package mg.juan;
+
+import mg.juan.email.CouldNotSendEmailException;
 
 
 public interface Notifier {

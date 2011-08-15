@@ -1,4 +1,4 @@
-package mg.aj;
+package mg.juan;
 
 public class Notify {
 	

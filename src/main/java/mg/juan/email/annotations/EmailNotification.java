@@ -1,4 +1,4 @@
-package mg.aj.annotations;
+package mg.juan.email.annotations;
 
 import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Retention;

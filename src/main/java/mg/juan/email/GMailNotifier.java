@@ -1,4 +1,4 @@
-package mg.aj;
+package mg.juan.email;
 
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -10,6 +10,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import mg.juan.Notifier;
 
 public class GMailNotifier implements Notifier {
 	private String subject;

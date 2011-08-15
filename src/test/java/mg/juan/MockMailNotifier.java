@@ -1,4 +1,7 @@
-package mg.aj;
+package mg.juan;
+
+import mg.juan.Notifier;
+import mg.juan.email.CouldNotSendEmailException;
 
 public class MockMailNotifier implements Notifier {
 

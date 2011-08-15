@@ -1,11 +1,11 @@
-package mg.aj.aspects;
+package mg.juan.email.aspects;
 
 import static org.junit.Assert.fail;
-import mg.aj.CouldNotSendEmailException;
-import mg.aj.GMailNotifier;
-import mg.aj.NotificationError;
-import mg.aj.Notifier;
-import mg.aj.annotations.EmailNotification;
+import mg.juan.NotificationError;
+import mg.juan.Notifier;
+import mg.juan.email.CouldNotSendEmailException;
+import mg.juan.email.GMailNotifier;
+import mg.juan.email.annotations.EmailNotification;
 
 public aspect EmailNotificationAspect {
 	pointcut sendEmailWhenNotificationErrorIsThrown(EmailNotification notif) :
