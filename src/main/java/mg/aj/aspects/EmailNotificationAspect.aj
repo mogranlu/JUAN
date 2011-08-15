@@ -1,17 +1,22 @@
 package mg.aj.aspects;
 
-import static org.junit.Assert.fail;
-import mg.aj.CouldNotSendEmailException;
+import mg.aj.CouldNotSendNotificationException;
 import mg.aj.GMailNotifier;
 import mg.aj.NotificationError;
 import mg.aj.Notifier;
-import mg.aj.annotations.EmailNotification;
+import mg.aj.annotations.Notification;
 
+/**
+ * This is the aspect containing code that will guide (wrap around) all methods annotated with {@link Notification}. 
+ * @author Morten Granlund
+ * @since 1.0
+ *
+ */
 public aspect EmailNotificationAspect {
-	pointcut sendEmailWhenNotificationErrorIsThrown(EmailNotification notif) :
+	pointcut sendEmailWhenNotificationErrorIsThrown(Notification notif) :
 		  execution(* *(..)) && @annotation(notif);
 
-	Object around(EmailNotification notif) : sendEmailWhenNotificationErrorIsThrown(notif) {
+	Object around(Notification notif) : sendEmailWhenNotificationErrorIsThrown(notif) {
 		Object result = null;
 		try {
 			result = proceed(notif);
@@ -49,11 +54,11 @@ public aspect EmailNotificationAspect {
 			}
 
 			try {
-				notifier.sendEmail();
-			} catch (CouldNotSendEmailException e) {
+				notifier.sendNotification();
+			} catch (CouldNotSendNotificationException e) {
 				e.printStackTrace();
-				fail("Something went wrong while attempting to send e-mail notification: "
-						+ e.getMessage());
+				throw new Error("Something went wrong while attempting to send e-mail notification: "
+						+ e.getMessage(), e);
 			}
 		}
 		return result;

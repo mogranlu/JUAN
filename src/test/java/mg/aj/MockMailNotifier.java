@@ -1,19 +1,37 @@
 package mg.aj;
 
+/**
+ * This is the mock of an e-mail notifier, primarily meant for JUnit tests.
+ * 
+ * @author Morten Granlund
+ * @since 1.0
+ */
 public class MockMailNotifier implements Notifier {
 
-	String recipient = "non-existing-email-recipient";
-	String subject = "non-existing-email-subject";
-	String body = "non-existing-email-body";
+	protected String recipient = "joe@no-way-someon-has-this-non-existing-mocked-email-address.com,ben@no-way-someon-has-this-non-existing-mocked-email-address.com";
+	protected String cc = "frank@no-way-someon-has-this-non-existing-mocked-email-address.com";
+	protected String subject = "Mocked E-mail subject";
+	protected String body = "Mocked E-mail body";
 
 	@Override
-	public void sendEmail() throws CouldNotSendEmailException {
+	public void sendNotification() throws CouldNotSendNotificationException {
 		System.out.println("Sending mocked email (of type :"
 				+ MockMailNotifier.class.getName()
 				+ " with the following detailed info:");
 		System.out.println("\tTO:\t" + getRecipient());
+		System.out.println("\tCC:\t" + getCc());
 		System.out.println("\tSUBJECT:\t" + getSubject());
 		System.out.println("\tBODY:\t" + getBody());
+	}
+
+	@Override
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+
+	@Override
+	public String getCc() {
+		return cc;
 	}
 
 	@Override
