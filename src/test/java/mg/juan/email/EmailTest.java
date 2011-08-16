@@ -1,7 +1,8 @@
-package mg.juan;
+package mg.juan.email;
 
+import mg.juan.CouldNotSendNotificationException;
 import mg.juan.NotificationError;
-import mg.juan.email.annotations.Notification;
+import mg.juan.annotations.Notification;
 
 import org.junit.Ignore;
 import org.junit.Test;

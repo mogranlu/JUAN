@@ -15,19 +15,14 @@ import mg.juan.CouldNotSendNotificationException;
 import mg.juan.Notifier;
 
 /**
- * This is the default implementation of the {@link Notifier} interface,
- * allowing the sending of an e-mail through Google's GMail service, using the
- * user account specified in the separate properties file. The implementation is
- * based on SMTP, making this implementation as simple as possible. Details
- * about the username, passord, URL, port number etc. are read from the external
- * properties file defined by the constant {@link #GMAIL_CONFIG_FILE}.
+ * This is a relatively simple (and default) implementation of the
+ * {@link Notifier} interface, allowing the sending of an e-mail notification
+ * through Google's GMail service, using the user account specified in the
+ * separate properties file. The implementation is based on SMTP, making this
+ * implementation as simple as possible. Details about the username, passord,
+ * URL, port number etc. are read from the external properties file defined by
+ * the constant {@link #GMAIL_CONFIG_FILE}.
  * 
-import mg.juan.Notifier;
-
-/**
- * The default implementation of the Notifier interface, sending notifying e-mails through Google's GMail service.
- * In this implementation, the SMTP protocol is used, making this as simple an implementation as possible.
- *  
  * @author Morten Granlund
  * @since 1.0
  */
@@ -42,7 +37,7 @@ public class GMailNotifier implements Notifier {
 	 * Corresponds to "gmail.properties" when being read with/as a
 	 * {@link ResourceBundle} with default locale
 	 */
-	protected static final String GMAIL_CONFIG_FILE = "gmail";
+	protected static final String GMAIL_CONFIG_FILE = "mg.juan.email.gmail";
 
 	private static final String NEWLINE = System.getProperty("line.separator");
 
@@ -51,11 +46,13 @@ public class GMailNotifier implements Notifier {
 	 * mail subject, mail recipient list, carbon copy (CC), and the body of the
 	 * E-mail.
 	 * 
-	 * @param subject the e-mail subject of the e-mail being sent.
+	 * @param subject
+	 *            the e-mail subject of the e-mail being sent.
 	 * @param recipient
 	 *            the email address(es) of the recipients. If there is more than
 	 *            one recipient, use the comma character ',' to separate them.
-	 * @param cc The CC field is 
+	 * @param cc
+	 *            The CC field is
 	 * @param body
 	 */
 	public GMailNotifier(String subject, String recipient, String cc,
@@ -66,6 +63,11 @@ public class GMailNotifier implements Notifier {
 		this.setBody(body);
 	}
 
+	/*
+	 * (non-Javadoc) Useful implementation used for "standard out debugging".
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("SENDING MAIL TO:");
@@ -90,6 +92,11 @@ public class GMailNotifier implements Notifier {
 		return str.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#sendNotification()
+	 */
 	public void sendNotification() throws CouldNotSendNotificationException {
 		ResourceBundle emailConfig = ResourceBundle
 				.getBundle(GMAIL_CONFIG_FILE);
@@ -123,26 +130,33 @@ public class GMailNotifier implements Notifier {
 			message.setFrom(new InternetAddress(from));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(this.getRecipient()));
-			message.setRecipients(Message.RecipientType.CC, 
+			message.setRecipients(Message.RecipientType.CC,
 					InternetAddress.parse(this.getCc()));
 			message.setSubject(this.getSubject());
 			message.setText(this.getBody());
 
-			System.out.println(" >>> GMail notification (\"" + message.getSubject() + "\") is armed and ready to be launched!");
-			
+			System.out.println(" >>> GMail notification (\""
+					+ message.getSubject()
+					+ "\") is armed and ready to be launched!");
+
 			Transport.send(message);
 
-			System.out.println(" >>> GMail notification (\"" + message.getSubject() + "\") sent!");
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(this.getRecipient()));
-			message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(this.getCc()));
+			System.out.println(" >>> GMail notification (\""
+					+ message.getSubject() + "\") sent!");
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(this.getRecipient()));
+			message.setRecipients(Message.RecipientType.CC,
+					InternetAddress.parse(this.getCc()));
 			message.setSubject(this.getSubject());
 			message.setText(this.getBody());
 
-			System.out.println(" >>> The e-mail (\"" + message.getSubject() +"\") is armed and ready to be sent...");
-			
+			System.out.println(" >>> The e-mail (\"" + message.getSubject()
+					+ "\") is armed and ready to be sent...");
+
 			Transport.send(message);
 
-			System.out.println(" >>> The e-mail (\"" + message.getSubject() + "\") has been sent!");
+			System.out.println(" >>> The e-mail (\"" + message.getSubject()
+					+ "\") has been sent!");
 
 		} catch (MessagingException e) {
 			throw new CouldNotSendNotificationException(
@@ -151,61 +165,73 @@ public class GMailNotifier implements Notifier {
 		}
 	}
 
-	/**
-	 * @return the subject
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#getSubject()
 	 */
 	public String getSubject() {
 		return subject;
 	}
 
-	/**
-	 * @param subject
-	 *            the subject to set
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#setSubject(java.lang.String)
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 
-	/**
-	 * @return the recipient
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#getRecipient()
 	 */
 	public String getRecipient() {
 		return recipient;
 	}
 
-	/**
-	 * @param recipient
-	 *            the recipient to set
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#setRecipient(java.lang.String)
 	 */
 	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
 
-	/**
-	 * @return the cc
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#getCc()
 	 */
 	public String getCc() {
 		return cc;
 	}
 
-	/**
-	 * @param cc
-	 *            the cc to set
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#setCc(java.lang.String)
 	 */
 	public void setCc(String cc) {
 		this.cc = cc;
 	}
 
-	/**
-	 * @return the body
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#getBody()
 	 */
 	public String getBody() {
 		return body;
 	}
 
-	/**
-	 * @param body
-	 *            the body to set
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mg.juan.Notifier#setBody(java.lang.String)
 	 */
 	public void setBody(String body) {
 		this.body = body;

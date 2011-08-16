@@ -4,8 +4,8 @@ import mg.juan.CouldNotSendNotificationException;
 import mg.juan.NotificationError;
 import mg.juan.Notifier;
 import mg.juan.Notify;
+import mg.juan.annotations.Notification;
 import mg.juan.email.GMailNotifier;
-import mg.juan.email.annotations.Notification;
 
 /**
  * This aspect will guide all methods annotated with {@link Notification} so
@@ -31,6 +31,8 @@ public aspect EmailNotificationAspect {
 			String body = ex.getNotification().toString();
 
 			// Default Notifier is GMailNotifier!
+			// TODO : Make the default notifier configurable from a properties
+			// file.
 			Notifier notifier = new GMailNotifier(subject, recipient, cc, body);
 
 			// Check if another notifier is explicitly set in the notification
@@ -72,6 +74,13 @@ public aspect EmailNotificationAspect {
 
 	}
 
+	/**
+	 * Extracted the logging/printing, if the need for a more savvy logging
+	 * mechanism than "std.out" appears "down the road".
+	 * 
+	 * @param rootCause
+	 *            the root case of the failover mechanism activation.
+	 */
 	private void logWarningOnNotifierFailover(Throwable rootCause) {
 		System.out
 				.println("Switching to default notifier. Could not instantiate explicit notifier due the following :");

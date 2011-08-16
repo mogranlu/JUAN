@@ -1,7 +1,16 @@
-package mg.juan;
+package mg.juan.email;
 
+import mg.juan.CouldNotSendNotificationException;
 import mg.juan.Notifier;
 
+/**
+ * A mocked implementation of the {@link Notifier} interface, making it easier
+ * to run JUnit tests without sending live e-mails over the network.
+ * 
+ * @author Morten Granlund
+ * @since 1.0
+ * 
+ */
 public class MockMailNotifier implements Notifier {
 
 	String recipient = "joe@there.is.no.way.someone.is.receiving.this.mocked.email.foo,bret@there.is.no.way.someone.is.receiving.this.mocked.email.foo";
@@ -37,12 +46,12 @@ public class MockMailNotifier implements Notifier {
 	public void setCc(String cc) {
 		this.cc = cc;
 	}
-	
+
 	@Override
 	public String getCc() {
 		return this.cc;
 	}
-	
+
 	@Override
 	public void setSubject(String subject) {
 		this.subject = subject;
