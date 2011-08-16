@@ -1,6 +1,5 @@
 package mg.juan;
 
-import mg.juan.email.CouldNotSendEmailException;
 import mg.juan.email.GMailNotifier;
 
 /**
@@ -14,7 +13,7 @@ public interface Notifier {
 
 	public abstract String toString();
 
-	public abstract void sendEmail() throws CouldNotSendEmailException;
+	public abstract void sendNotification() throws CouldNotSendNotificationException;
 
 	void setRecipient(String recipient);
 

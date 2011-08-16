@@ -1,7 +1,6 @@
 package mg.juan;
 
 import mg.juan.Notifier;
-import mg.juan.email.CouldNotSendEmailException;
 
 public class MockMailNotifier implements Notifier {
 
@@ -13,7 +12,7 @@ public class MockMailNotifier implements Notifier {
 			+ "If you can read this message, you have received a mocked e-mail from the Juan framework!";
 
 	@Override
-	public void sendEmail() throws CouldNotSendEmailException {
+	public void sendNotification() throws CouldNotSendNotificationException {
 		System.out.println("[MOCKMAIl] Sending mocked email (of type :"
 				+ MockMailNotifier.class.getName()
 				+ " with the following detailed info:");

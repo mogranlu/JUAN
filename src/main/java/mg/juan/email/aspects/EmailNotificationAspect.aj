@@ -1,33 +1,19 @@
 package mg.juan.email.aspects;
 
-<<<<<<< HEAD:src/main/java/mg/aj/aspects/EmailNotificationAspect.aj
-import mg.aj.CouldNotSendNotificationException;
-import mg.aj.GMailNotifier;
-import mg.aj.NotificationError;
-import mg.aj.Notifier;
-import mg.aj.annotations.Notification;
-
-/**
- * This is the aspect containing code that will guide (wrap around) all methods annotated with {@link Notification}. 
- * @author Morten Granlund
- * @since 1.0
- *
-=======
+import mg.juan.CouldNotSendNotificationException;
 import mg.juan.NotificationError;
 import mg.juan.Notifier;
 import mg.juan.Notify;
-import mg.juan.email.CouldNotSendEmailException;
 import mg.juan.email.GMailNotifier;
-import mg.juan.email.annotations.EmailNotification;
+import mg.juan.email.annotations.Notification;
 
 /**
- * This aspect will guide all methods annotated with {@link EmailNotification}
- * so that failing tests using the {@link Notify} methods/tests will cause a
+ * This aspect will guide all methods annotated with {@link Notification} so
+ * that failing tests using the {@link Notify} methods/tests will cause a
  * Notification to be sent.
  * 
  * @author Morten Granlund
  * @since 1.0
->>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/main/java/mg/juan/email/aspects/EmailNotificationAspect.aj
  */
 public aspect EmailNotificationAspect {
 	pointcut sendEmailWhenNotificationErrorIsThrown(Notification notif) :
@@ -77,14 +63,9 @@ public aspect EmailNotificationAspect {
 				notifier.sendNotification();
 			} catch (CouldNotSendNotificationException e) {
 				e.printStackTrace();
-<<<<<<< HEAD:src/main/java/mg/aj/aspects/EmailNotificationAspect.aj
-				throw new Error("Something went wrong while attempting to send e-mail notification: "
-						+ e.getMessage(), e);
-=======
 				throw new Error(
 						"Something went wrong while attempting to send e-mail notification: "
 								+ e.getMessage(), e);
->>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/main/java/mg/juan/email/aspects/EmailNotificationAspect.aj
 			}
 		}
 		return result;
