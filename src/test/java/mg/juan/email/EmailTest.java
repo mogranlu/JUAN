@@ -21,7 +21,7 @@ public class EmailTest {
 	 * Test that the NotificationException is caught by aspect
 	 */
 	@Test
-	@Notification(recipient = "spam.granlund@gmail.com,morten.granlund@gmail.com", subject = "Someone is reusing your framework database (JavaZone presentation check)!", notifier = "mg.juan.MockMailNotifier")
+	@Notification(recipient = "spam.granlund@gmail.com,morten.granlund@gmail.com", subject = "Someone is reusing your framework database (JavaZone presentation check)!", notifier = "mg.juan.email.MockMailNotifier")
 	public void testThatTheNotificationExceptionIsCaughtAndHandledByTheAspect() {
 		/*
 		 * Test that the notification exception is caught and handled by aspect,
@@ -41,7 +41,7 @@ public class EmailTest {
 	}
 
 	@Test
-	@Notification(recipient = "recipient", subject = "subject", notifier = "mg.juan.MockMailNotifier")
+	@Notification(recipient = "recipient", subject = "subject", notifier = "mg.juan.email.MockMailNotifier")
 	public void testSomething() {
 		notifyIfNot("Testing the notifyIfNot method!", false);
 	}
