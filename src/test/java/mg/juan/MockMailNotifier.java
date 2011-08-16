@@ -1,37 +1,26 @@
-package mg.aj;
+package mg.juan;
 
-/**
- * This is the mock of an e-mail notifier, primarily meant for JUnit tests.
- * 
- * @author Morten Granlund
- * @since 1.0
- */
+import mg.juan.Notifier;
+import mg.juan.email.CouldNotSendEmailException;
+
 public class MockMailNotifier implements Notifier {
 
-	protected String recipient = "joe@no-way-someon-has-this-non-existing-mocked-email-address.com,ben@no-way-someon-has-this-non-existing-mocked-email-address.com";
-	protected String cc = "frank@no-way-someon-has-this-non-existing-mocked-email-address.com";
-	protected String subject = "Mocked E-mail subject";
-	protected String body = "Mocked E-mail body";
+	String recipient = "joe@there.is.no.way.someone.is.receiving.this.mocked.email.foo,bret@there.is.no.way.someone.is.receiving.this.mocked.email.foo";
+	String cc = "frank@there.is.no.way.someone.is.receiving.this.mocked.email.foo";
+	String subject = "Mocked e-mail!";
+	String body = "Hello!"
+			+ System.getProperty("line.separator")
+			+ "If you can read this message, you have received a mocked e-mail from the Juan framework!";
 
 	@Override
-	public void sendNotification() throws CouldNotSendNotificationException {
-		System.out.println("Sending mocked email (of type :"
+	public void sendEmail() throws CouldNotSendEmailException {
+		System.out.println("[MOCKMAIl] Sending mocked email (of type :"
 				+ MockMailNotifier.class.getName()
 				+ " with the following detailed info:");
 		System.out.println("\tTO:\t" + getRecipient());
 		System.out.println("\tCC:\t" + getCc());
 		System.out.println("\tSUBJECT:\t" + getSubject());
 		System.out.println("\tBODY:\t" + getBody());
-	}
-
-	@Override
-	public void setCc(String cc) {
-		this.cc = cc;
-	}
-
-	@Override
-	public String getCc() {
-		return cc;
 	}
 
 	@Override
@@ -45,6 +34,16 @@ public class MockMailNotifier implements Notifier {
 		return this.recipient;
 	}
 
+	@Override
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+	
+	@Override
+	public String getCc() {
+		return this.cc;
+	}
+	
 	@Override
 	public void setSubject(String subject) {
 		this.subject = subject;

@@ -1,10 +1,17 @@
-package mg.aj;
+package mg.juan;
 
+<<<<<<< HEAD:src/test/java/mg/aj/EmailTest.java
 import mg.aj.annotations.Notification;
+=======
+import mg.juan.NotificationError;
+import mg.juan.email.CouldNotSendEmailException;
+import mg.juan.email.annotations.EmailNotification;
+>>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/test/java/mg/juan/EmailTest.java
 
 import org.junit.Ignore;
 import org.junit.Test;
-import static mg.aj.Notify.*;
+
+import static mg.juan.Notify.*;
 
 public class EmailTest {
 
@@ -12,7 +19,11 @@ public class EmailTest {
 	 * Test that the NotificationException is caught by aspect
 	 */
 	@Test
+<<<<<<< HEAD:src/test/java/mg/aj/EmailTest.java
 	@Notification(recipient = "spam.granlund@gmail.com,morten.granlund@gmail.com", subject = "Someone is reusing your framework database (JavaZone presentation check)!", notifier = "mg.aj.MockMailNotifier")
+=======
+	@EmailNotification(recipient = "spam.granlund@gmail.com,morten.granlund@gmail.com", subject = "Someone is reusing your framework database (JavaZone presentation check)!", notifier="mg.juan.MockMailNotifier")
+>>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/test/java/mg/juan/EmailTest.java
 	public void testThatTheNotificationExceptionIsCaughtAndHandledByTheAspect() {
 		/*
 		 * Test that the notification exception is caught and handled by aspect,
@@ -32,7 +43,11 @@ public class EmailTest {
 	}
 
 	@Test
+<<<<<<< HEAD:src/test/java/mg/aj/EmailTest.java
 	@Notification(recipient = "recipient", subject = "subject", notifier = "mg.aj.MockMailNotifier")
+=======
+	@EmailNotification(recipient="recipient", subject="subject", notifier="mg.juan.MockMailNotifier")
+>>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/test/java/mg/juan/EmailTest.java
 	public void testSomething() {
 		notifyIfNot("Testing the notifyIfNot method!", false);
 	}

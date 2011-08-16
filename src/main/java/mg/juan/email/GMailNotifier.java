@@ -1,4 +1,4 @@
-package mg.aj;
+package mg.juan.email;
 
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -11,6 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+<<<<<<< HEAD:src/main/java/mg/aj/GMailNotifier.java
 /**
  * This is the default implementation of the {@link Notifier} interface,
  * allowing the sending of an e-mail through Google's GMail service, using the
@@ -19,6 +20,14 @@ import javax.mail.internet.MimeMessage;
  * about the username, passord, URL, port number etc. are read from the external
  * properties file defined by the constant {@link #GMAIL_CONFIG_FILE}.
  * 
+=======
+import mg.juan.Notifier;
+
+/**
+ * The default implementation of the Notifier interface, sending notifying e-mails through Google's GMail service.
+ * In this implementation, the SMTP protocol is used, making this as simple an implementation as possible.
+ *  
+>>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/main/java/mg/juan/email/GMailNotifier.java
  * @author Morten Granlund
  * @since 1.0
  */
@@ -112,6 +121,7 @@ public class GMailNotifier implements Notifier {
 			String from = emailConfig.getString("mail.smtp.sender");
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
+<<<<<<< HEAD:src/main/java/mg/aj/GMailNotifier.java
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(this.getRecipient()));
 			message.setRecipients(Message.RecipientType.CC, 
@@ -124,6 +134,18 @@ public class GMailNotifier implements Notifier {
 			Transport.send(message);
 
 			System.out.println(" >>> GMail notification (\"" + message.getSubject() + "\") sent!");
+=======
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(this.getRecipient()));
+			message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(this.getCc()));
+			message.setSubject(this.getSubject());
+			message.setText(this.getBody());
+
+			System.out.println(" >>> The e-mail (\"" + message.getSubject() +"\") is armed and ready to be sent...");
+			
+			Transport.send(message);
+
+			System.out.println(" >>> The e-mail (\"" + message.getSubject() + "\") has been sent!");
+>>>>>>> 9751d5d7fcb6787af0c8317ad4569fb374c31651:src/main/java/mg/juan/email/GMailNotifier.java
 
 		} catch (MessagingException e) {
 			throw new CouldNotSendNotificationException(
