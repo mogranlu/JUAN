@@ -135,28 +135,16 @@ public class GMailNotifier implements Notifier {
 			message.setSubject(this.getSubject());
 			message.setText(this.getBody());
 
-			System.out.println(" >>> GMail notification (\""
-					+ message.getSubject()
+			logToConsole(" >>> GMail notification (\"" + message.getSubject()
 					+ "\") is armed and ready to be launched!");
+			logToConsole(" >>> With the following message body:");
+			logToConsole(getBody());
 
+			// Do the actual sending of the e-mail!
 			Transport.send(message);
 
-			System.out.println(" >>> GMail notification (\""
-					+ message.getSubject() + "\") sent!");
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(this.getRecipient()));
-			message.setRecipients(Message.RecipientType.CC,
-					InternetAddress.parse(this.getCc()));
-			message.setSubject(this.getSubject());
-			message.setText(this.getBody());
-
-			System.out.println(" >>> The e-mail (\"" + message.getSubject()
-					+ "\") is armed and ready to be sent...");
-
-			Transport.send(message);
-
-			System.out.println(" >>> The e-mail (\"" + message.getSubject()
-					+ "\") has been sent!");
+			logToConsole(" >>> GMail notification (\"" + message.getSubject()
+					+ "\") sent!");
 
 		} catch (MessagingException e) {
 			throw new CouldNotSendNotificationException(
@@ -235,5 +223,9 @@ public class GMailNotifier implements Notifier {
 	 */
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	private void logToConsole(String logMsg) {
+		System.out.println(logMsg);
 	}
 }
