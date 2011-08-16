@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.PropertyResourceBundle;
 
 import mg.juan.annotations.Notification;
 
@@ -89,10 +89,23 @@ public class Notify {
 	}
 
 	/**
+	 * This test checks for consistency within two resources bundles (usually
+	 * the same property bundle, but for a different locale), and notifies if
+	 * any properties only exist in once of these.
 	 * 
+	 * @param resource1
+	 *            the first resource bundle to compare.
+	 * @param resource2
+	 *            the second resource bundle to which the first is to be
+	 *            compared.
+	 * @throws NotificationError
+	 *             if one or more properties exist in one of the resources
+	 *             bundles but not in the other, the other way around, or if
+	 *             both bundles contains properties the other do not.
 	 */
-	public static void notifyIfDifferencesExistInResourceBundles(
-			ResourceBundle resource1, ResourceBundle resource2) {
+	public static void notifyIfDifferencesExistInResourceBundlesWithDifferentLocales(
+			PropertyResourceBundle resource1, PropertyResourceBundle resource2) {
+
 		// First, traverse keys in bundle 1 and find missing values in bundle 2:
 		Enumeration<String> keysInRes1 = resource1.getKeys();
 		List<String> keysMissingInBundle2 = new ArrayList<String>();
@@ -103,9 +116,10 @@ public class Notify {
 				nextKeyInRes1 = keysInRes1.nextElement();
 				nextValueIn2 = resource2.getString(nextKeyInRes1);
 			} catch (MissingResourceException mrEx) {
+				// nextValueIn2 remains null and will cause an accumulated
+				// notification later (when all missing properties are counted)
 			}
 
-			System.out.println(nextValueIn2);
 			if (isBlank(nextValueIn2)) {
 				keysMissingInBundle2.add(nextKeyInRes1);
 			}
@@ -120,8 +134,9 @@ public class Notify {
 				nextKeyInRes2 = keysInRes2.nextElement();
 				nextValueIn1 = resource1.getString(nextKeyInRes2);
 			} catch (MissingResourceException mrEx) {
+				// nextValueIn1 remains null and will cause an accumulated
+				// notification later (when all missing properties are counted)
 			}
-			System.out.println(nextValueIn1);
 			if (isBlank(nextValueIn1)) {
 				keysMissingInBundle1.add(nextKeyInRes2);
 			}
