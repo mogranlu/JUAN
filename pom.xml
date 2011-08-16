@@ -42,6 +42,11 @@
 			<version>1.6.7</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -64,7 +69,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -72,8 +77,8 @@
 				<configuration>
 					<ajdtVersion>1.5</ajdtVersion>
 				</configuration>
-      		</plugin>
-			
+			</plugin>
+
 		</plugins>
 	</build>
 

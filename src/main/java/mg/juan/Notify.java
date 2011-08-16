@@ -1,5 +1,13 @@
 package mg.juan;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
 import mg.juan.annotations.Notification;
 
 /**
@@ -65,7 +73,7 @@ public class Notify {
 	}
 
 	/**
-	 * 
+	 * Sends a condition-less notification with a given message.
 	 * 
 	 * @param message
 	 *            the message to be incorporated in your notification.
@@ -78,6 +86,74 @@ public class Notify {
 	 */
 	public static void notify(String message) throws NotificationError {
 		throw new NotificationError(message);
+	}
+
+	/**
+	 * 
+	 */
+	public static void notifyIfDifferencesExistInResourceBundles(
+			ResourceBundle resource1, ResourceBundle resource2) {
+		// First, traverse keys in bundle 1 and find missing values in bundle 2:
+		Enumeration<String> keysInRes1 = resource1.getKeys();
+		List<String> keysMissingInBundle2 = new ArrayList<String>();
+		while (keysInRes1.hasMoreElements()) {
+			String nextKeyInRes1 = null;
+			String nextValueIn2 = null;
+			try {
+				nextKeyInRes1 = keysInRes1.nextElement();
+				nextValueIn2 = resource2.getString(nextKeyInRes1);
+			} catch (MissingResourceException mrEx) {
+			}
+
+			System.out.println(nextValueIn2);
+			if (isBlank(nextValueIn2)) {
+				keysMissingInBundle2.add(nextKeyInRes1);
+			}
+		}
+
+		Enumeration<String> keysInRes2 = resource2.getKeys();
+		List<String> keysMissingInBundle1 = new ArrayList<String>();
+		while (keysInRes2.hasMoreElements()) {
+			String nextKeyInRes2 = null;
+			String nextValueIn1 = null;
+			try {
+				nextKeyInRes2 = keysInRes2.nextElement();
+				nextValueIn1 = resource1.getString(nextKeyInRes2);
+			} catch (MissingResourceException mrEx) {
+			}
+			System.out.println(nextValueIn1);
+			if (isBlank(nextValueIn1)) {
+				keysMissingInBundle1.add(nextKeyInRes2);
+			}
+		}
+
+		// If both lists with missing properties are empty, then that is jolly
+		// good!
+		if (keysMissingInBundle2.isEmpty() && keysMissingInBundle1.isEmpty()) {
+			// Success!
+			return;
+		} else {
+			StringBuilder notifyMessage = new StringBuilder();
+			if (keysMissingInBundle1.size() > 0) {
+				notifyMessage
+						.append("The following properties are missing in bundle #1: {");
+				for (String nextMissingIn1 : keysMissingInBundle1) {
+					notifyMessage.append(nextMissingIn1).append(", ");
+				}
+				notifyMessage.append("}.  ");
+			}
+			if (keysMissingInBundle2.size() > 0) {
+				notifyMessage
+						.append("The following properties are missing in bundle #1: {");
+				for (String nextMissingIn2 : keysMissingInBundle2) {
+					notifyMessage.append(nextMissingIn2).append(", ");
+				}
+
+				notifyMessage.append("}");
+			}
+			notify(notifyMessage.toString());
+		}
+
 	}
 
 }
