@@ -21,6 +21,13 @@ Java Mail 1.4.1
 AspectJ 1.6.7
 Eclipse version Indigo w/ the AspectJ plugin explicitly installed
 
-The project is built using Apache Maven v3.
-mvn clean install
-mvn eclipse:eclipse
++------------------------------------+
+| How to build / setup this project: |
++------------------------------------+
+NOTE/WARNING: It will not work to just import this project in eclipse "as is", as no ".project" file is checked in.
+You will have to run the maven eclipse plugin to generate the appropriate .project and .classpath files.
+
+Using Maven 3, do the following:
+1) mvn clean install
+2) mvn eclipse:eclipse
+3) Import the project in eclipse
