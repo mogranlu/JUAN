@@ -16,8 +16,8 @@ import mg.juan.email.GMailNotifier;
  * @since 1.0
  */
 public aspect EmailNotificationAspect {
-	pointcut sendEmailWhenNotificationErrorIsThrown(Notification notif) :
-		  execution(* *(..)) && @annotation(notif);
+	public pointcut sendEmailWhenNotificationErrorIsThrown(Notification notif) :
+		  execution(* *.*(..)) && @annotation(notif);
 
 	Object around(Notification notif) : sendEmailWhenNotificationErrorIsThrown(notif) {
 		Object result = null;
