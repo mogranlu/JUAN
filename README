@@ -4,13 +4,22 @@ JUAN README
 +-------------+
 | About JUAN: |
 +-------------+
-JUAN (JUnit Add-on for Notifications), is a small add-on to JUnit, offering an automated mechanism to alert, or notify, 
+JUAN (JUnit Add-on for Notifications), is a small supplement to JUnit, offering an automated mechanism to alert, or notify, 
 team members about events, without breaking the build. This means that the developers can still work as normal, as opposed 
 to the traditional JUnit failures, which means that the entire production line does not have to halt. 
 
+Note that although JUAN is not strictly dependent on JUnit - and can be run stand-alone - JUnit tests are often a very
+good point of departure for these potential alerts to be triggered, since JUnit tests (should) run every time a change
+has been made to your project's code!
+
 Examples on events that do not have to break the build:
  - There is a mismatch between two different localized text resources files (some new properties have not yet been translated).
- - Someone has edited a particularly critical part of the application, and an e-mail is sent to someone who knows this part of the code well that an extra code review is recommended.
+ - Someone has edited a particularly critical part of the application, and an e-mail is sent to someone who knows this part of the code well, telling him/her that an extra code review is not a bad idea.
+ - Some part of your code was not properly formatted using Ctrl+Shift+F (according to your Eclipse code formatting template).
+
+Even though JUAN is built with GMail e-mails as the default notifier, the Notifier interface can easily be 
+extended by your own implementation, and through the provided mechanism using reflection, you can be up and
+running with your own Wiki or SMS notifier in no time!
 
 +---------------------------+
 | Technology / Dependencies |
@@ -31,3 +40,9 @@ Using Maven 3, do the following:
 1) mvn clean install
 2) mvn eclipse:eclipse
 3) Import the project in eclipse
+4) Make sure to put a valid username and passord in the properties file: "gmail.properties" 
+5) Enjoy alerts!
+
+         !! HAPPY ALERTING !!
+        !! Morten Granlund  !!
+
